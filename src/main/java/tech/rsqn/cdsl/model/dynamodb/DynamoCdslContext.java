@@ -10,7 +10,7 @@ public class DynamoCdslContext {
     private String contextId;
     private Date createdTs;
     private Date modifiedTs;
-    private DynamoCdslContextWrapper context;
+    private CdslContext context;
 
 //DynamoDBVersionAttribute
 
@@ -57,11 +57,13 @@ public class DynamoCdslContext {
         return this.modifiedTs;
     }   
     
-    public void setContext(DynamoCdslContextWrapper ctx) {
+    public void setContext(CdslContext ctx) {
         this.context = ctx;
     }
     
-    public DynamoCdslContextWrapper getContext() {
+    @DynamoDBTypeConverted(converter = CdslContext.class)
+    @DynamoDBAttribute(attributeName = "Context")
+    public CdslContext getContext() {
         return this.context;
     }
    

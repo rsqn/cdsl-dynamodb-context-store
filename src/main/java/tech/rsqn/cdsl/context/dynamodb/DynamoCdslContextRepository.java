@@ -44,7 +44,7 @@ public class DynamoCdslContextRepository implements CdslContextRepository {
         DynamoCdslContext item = mapper.load(DynamoCdslContext.class, contextId, mapperConfig); 
                 
         if ( item != null ) {
-            return item.getContext().to();
+            return item.getContext();
         }
         return null;
     }
@@ -73,7 +73,7 @@ public class DynamoCdslContextRepository implements CdslContextRepository {
         
         item.setId(context.getId());
         item.setContextId(context.getId());
-        item.setContext(new DynamoCdslContextWrapper().from(context));
+        item.setContext(context);
         item.setModifiedTs(new Date());
         
         mapper.save(item,mapperConfig);
