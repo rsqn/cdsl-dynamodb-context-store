@@ -1,9 +1,8 @@
 package tech.rsqn.cdsl.model.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
+
 import java.util.Date;
-import tech.rsqn.cdsl.context.*;
 
 @DynamoDBTable(tableName="CdslContextIntegrationTest")
 public class DynamoCdslContext { 
@@ -11,7 +10,7 @@ public class DynamoCdslContext {
     private String contextId;
     private Date createdTs;
     private Date modifiedTs;
-    private DynamoContextWrapper context;
+    private DynamoCdslContextWrapper context;
 
 //DynamoDBVersionAttribute
 
@@ -58,11 +57,11 @@ public class DynamoCdslContext {
         return this.modifiedTs;
     }   
     
-    public void setContext(DynamoContextWrapper ctx) {
+    public void setContext(DynamoCdslContextWrapper ctx) {
         this.context = ctx;
     }
     
-    public DynamoContextWrapper getContext() {
+    public DynamoCdslContextWrapper getContext() {
         return this.context;
     }
    

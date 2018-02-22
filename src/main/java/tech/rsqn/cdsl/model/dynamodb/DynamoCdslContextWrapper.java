@@ -1,17 +1,26 @@
  package tech.rsqn.cdsl.model.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import java.util.Date;
 import tech.rsqn.cdsl.context.*;
 import org.springframework.beans.BeanUtils;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @DynamoDBDocument
-public class DynamoContextWrapper extends CdslContext { 
-   
-    public DynamoContextWrapper from (CdslContext src) {
-        BeanUtils.copyProperties(this,src);
+public class DynamoCdslContextWrapper extends CdslContext {
+
+    private String lcl = "mm";
+
+    public String getLcl() {
+        return lcl;
+    }
+
+    public void setLcl(String lcl) {
+        this.lcl = lcl;
+    }
+
+    public DynamoCdslContextWrapper from (CdslContext src) {
+        BeanUtils.copyProperties(src,this);
         
           
         System.out.println("xFROMA " + ToStringBuilder.reflectionToString(src));
@@ -22,9 +31,9 @@ public class DynamoContextWrapper extends CdslContext {
     
     public CdslContext to () {
         CdslContext ret = new CdslContext();
-        BeanUtils.copyProperties(ret,this);
+        BeanUtils.copyProperties(this,ret);
      
-        System.out.println("xTOA " + ToStringBuilder.reflectionToString(ret));
+        System.out.println("xTOA " + ToStringBuilder.reflectionToString(this));
         System.out.println("xTOB " + ToStringBuilder.reflectionToString(ret));
 
         return ret;

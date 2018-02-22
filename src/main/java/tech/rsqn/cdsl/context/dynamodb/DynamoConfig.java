@@ -23,7 +23,7 @@ import tech.rsqn.cdsl.context.*;
 //@Configuration
 //@EnableDynamoDBRepositories(dynamoDBMapperConfigRef = "dynamoDBMapperConfig",
 //    basePackages = "tech.rsqn.cdsl")
-public class DynamoDBConfig {
+public class DynamoConfig {
    // @Bean
     //public DynamoDBMapperConfig dynamoDBMapperConfig() {
    //     DynamoDBMapperConfig.Builder builder = new DynamoDBMapperConfig.Builder();

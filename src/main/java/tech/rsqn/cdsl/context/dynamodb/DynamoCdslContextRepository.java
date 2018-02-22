@@ -1,32 +1,24 @@
 package tech.rsqn.cdsl.context.dynamodb;
 
-import tech.rsqn.cdsl.exceptions.CdslException;
 import tech.rsqn.cdsl.model.dynamodb.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Date;
 import com.amazonaws.regions.Regions;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import tech.rsqn.cdsl.context.*;
 
-public class CdslDynamoDBContextRepository implements CdslContextRepository {
+public class DynamoCdslContextRepository implements CdslContextRepository {
 
     private AmazonDynamoDB dynamoDBClient = new AmazonDynamoDBClient();
     private DynamoDBMapper mapper = new DynamoDBMapper(dynamoDBClient);
     private DynamoDBMapperConfig mapperConfig = null;
     
-    public CdslDynamoDBContextRepository() {
+    public DynamoCdslContextRepository() {
         Regions usWest2 = Regions.AP_SOUTHEAST_2;
         
         dynamoDBClient = AmazonDynamoDBClientBuilder.standard().withRegion(usWest2).build();
@@ -81,7 +73,7 @@ public class CdslDynamoDBContextRepository implements CdslContextRepository {
         
         item.setId(context.getId());
         item.setContextId(context.getId());
-        item.setContext(new DynamoContextWrapper().from(context));
+        item.setContext(new DynamoCdslContextWrapper().from(context));
         item.setModifiedTs(new Date());
         
         mapper.save(item,mapperConfig);
