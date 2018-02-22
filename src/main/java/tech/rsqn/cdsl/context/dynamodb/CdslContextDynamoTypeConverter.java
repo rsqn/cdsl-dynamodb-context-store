@@ -1,40 +1,25 @@
 package tech.rsqn.cdsl.context.dynamodb;
 
-public class CdslContextDynamoTypeConverter implements DynamoDBTypeConverter<String, DimensionType> {
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import tech.rsqn.cdsl.context.CdslContext;
 
-        @Override
-        public String convert(DimensionType object) {
-            DimensionType itemDimensions = (DimensionType) object;
-            String dimension = null;
-            try {
-                if (itemDimensions != null) {
-                    dimension = String.format("%s x %s x %s", itemDimensions.getLength(), itemDimensions.getHeight(),
-                        itemDimensions.getThickness());
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-            return dimension;
-        }
+public class CdslContextDynamoTypeConverter implements DynamoDBTypeConverter<String, CdslContext> {
 
-        @Override
-        public DimensionType unconvert(String s) {
+    @Override
+    public String convert(CdslContext object) {
+        Gson gson = new GsonBuilder().create();
 
-            DimensionType itemDimension = new DimensionType();
-            try {
-                if (s != null && s.length() != 0) {
-                    String[] data = s.split("x");
-                    itemDimension.setLength(data[0].trim());
-                    itemDimension.setHeight(data[1].trim());
-                    itemDimension.setThickness(data[2].trim());
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return itemDimension;
-        }
+        String str = gson.toJson(object);
+        return str;
     }
+
+    @Override
+    public CdslContext unconvert(String s) {
+        Gson gson = new GsonBuilder().create();
+        CdslContext context = gson.fromJson(s, CdslContext.class);
+        return context;
+    }
+}
     

@@ -1,6 +1,8 @@
 package tech.rsqn.cdsl.model.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import tech.rsqn.cdsl.context.CdslContext;
+import tech.rsqn.cdsl.context.dynamodb.CdslContextDynamoTypeConverter;
 
 import java.util.Date;
 
@@ -37,8 +39,7 @@ public class DynamoCdslContext {
     public void setContextId(String contextId) {
         this.contextId = contextId;
     }
-     
-    
+
     public void setCreatedTs(Date d) {
         this.createdTs = d;
     }
@@ -61,8 +62,8 @@ public class DynamoCdslContext {
         this.context = ctx;
     }
     
-    @DynamoDBTypeConverted(converter = CdslContext.class)
-    @DynamoDBAttribute(attributeName = "Context")
+    @DynamoDBTypeConverted(converter = CdslContextDynamoTypeConverter.class)
+    @DynamoDBAttribute(attributeName = "context")
     public CdslContext getContext() {
         return this.context;
     }

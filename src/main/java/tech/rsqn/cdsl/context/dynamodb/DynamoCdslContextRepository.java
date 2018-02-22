@@ -1,21 +1,21 @@
 package tech.rsqn.cdsl.context.dynamodb;
 
-import tech.rsqn.cdsl.model.dynamodb.*;
-
-import java.util.Date;
 import com.amazonaws.regions.Regions;
-
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import tech.rsqn.cdsl.context.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import tech.rsqn.cdsl.context.CdslContext;
+import tech.rsqn.cdsl.context.CdslContextRepository;
+import tech.rsqn.cdsl.model.dynamodb.DynamoCdslContext;
+
+import java.util.Date;
 
 public class DynamoCdslContextRepository implements CdslContextRepository {
 
-    private AmazonDynamoDB dynamoDBClient = new AmazonDynamoDBClient();
-    private DynamoDBMapper mapper = new DynamoDBMapper(dynamoDBClient);
+    private AmazonDynamoDB dynamoDBClient;
+    private DynamoDBMapper mapper;
     private DynamoDBMapperConfig mapperConfig = null;
     
     public DynamoCdslContextRepository() {
