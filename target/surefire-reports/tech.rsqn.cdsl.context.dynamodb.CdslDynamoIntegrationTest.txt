@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Test set: tech.rsqn.cdsl.context.dynamodb.CdslDynamoIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 6.523 sec <<< FAILURE! - in tech.rsqn.cdsl.context.dynamodb.CdslDynamoIntegrationTest
+(tech.rsqn.cdsl.context.dynamodb.CdslDynamoIntegrationTest)  Time elapsed: 0.271 sec  <<< FAILURE!
+java.lang.RuntimeException: holy uck
+	at tech.rsqn.cdsl.context.CdslContext.putVar(CdslContext.java:71)
+	at tech.rsqn.cdsl.context.dynamodb.CdslDynamoIntegrationTest.shouldCrudContext(CdslDynamoIntegrationTest.java:47)
+
