@@ -20,18 +20,21 @@ public class DynamoCdslContextRepository implements CdslContextRepository {
     
     public DynamoCdslContextRepository() {
         Regions usWest2 = Regions.AP_SOUTHEAST_2;
-        
         dynamoDBClient = AmazonDynamoDBClientBuilder.standard().withRegion(usWest2).build();
         mapper = new DynamoDBMapper(dynamoDBClient);
-        //mapperConfig = DynamoDBMapperConfig(DynamoDBMapperConfig.ConsistentReads.CONSISTENT);
     }
-    
-    public void withTableNameResolver(DynamoDBMapperConfig.TableNameResolver resolver) {
+
+    public DynamoCdslContextRepository withClient(AmazonDynamoDB client) {
+        dynamoDBClient = client;
+        mapper = new DynamoDBMapper(dynamoDBClient);
+        return this;
+    }
+
+    public DynamoCdslContextRepository withTableNameResolver(DynamoDBMapperConfig.TableNameResolver resolver) {
         DynamoDBMapperConfig.Builder builder = new DynamoDBMapperConfig.Builder();
         builder.setTableNameResolver(resolver);
-        // DynamoDBMapperConfig(DynamoDBMapperConfig.ConsistentReads.CONSISTENT);
-        
         mapper = new DynamoDBMapper(dynamoDBClient, builder.build());
+        return this;
     }
     
     @Override
