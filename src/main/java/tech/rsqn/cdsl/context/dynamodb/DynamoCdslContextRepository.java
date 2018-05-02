@@ -1,11 +1,13 @@
 package tech.rsqn.cdsl.context.dynamodb;
 
+import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import org.apache.commons.lang3.StringUtils;
 import tech.rsqn.cdsl.context.CdslContext;
 import tech.rsqn.cdsl.context.CdslContextRepository;
 import tech.rsqn.cdsl.model.dynamodb.DynamoCdslContext;
@@ -17,20 +19,43 @@ public class DynamoCdslContextRepository implements CdslContextRepository {
     private AmazonDynamoDB dynamoDBClient;
     private DynamoDBMapper mapper;
     private DynamoDBMapperConfig mapperConfig = null;
-    
+
+    private String region = null;
+    private String endpoint = null;
+
     public DynamoCdslContextRepository() {
-        Regions usWest2 = Regions.AP_SOUTHEAST_2;
-        
-        dynamoDBClient = AmazonDynamoDBClientBuilder.standard().withRegion(usWest2).build();
+
+    }
+
+    public void init() {
+        Regions r = Regions.AP_SOUTHEAST_2;
+        if ( StringUtils.isNotBlank(region)) {
+            r = Regions.fromName(region);
+        }
+
+        if (StringUtils.isNotBlank(endpoint)) {
+            dynamoDBClient = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
+                    new AwsClientBuilder.EndpointConfiguration(endpoint, "us-west-2")).build();
+        } else {
+            dynamoDBClient = AmazonDynamoDBClientBuilder.standard().withRegion(r).build();
+        }
+
         mapper = new DynamoDBMapper(dynamoDBClient);
         //mapperConfig = DynamoDBMapperConfig(DynamoDBMapperConfig.ConsistentReads.CONSISTENT);
     }
-    
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
     public void withTableNameResolver(DynamoDBMapperConfig.TableNameResolver resolver) {
         DynamoDBMapperConfig.Builder builder = new DynamoDBMapperConfig.Builder();
         builder.setTableNameResolver(resolver);
         // DynamoDBMapperConfig(DynamoDBMapperConfig.ConsistentReads.CONSISTENT);
-        
         mapper = new DynamoDBMapper(dynamoDBClient, builder.build());
     }
     
