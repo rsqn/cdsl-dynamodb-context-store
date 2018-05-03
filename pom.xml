@@ -9,7 +9,7 @@
 
     <groupId>tech.rsqn.cdsl</groupId>
     <artifactId>cdsl-dynamodb-context-store</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>cdsl-dynamodb-context-store</name>
