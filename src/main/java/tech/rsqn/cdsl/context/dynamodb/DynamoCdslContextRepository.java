@@ -35,7 +35,7 @@ public class DynamoCdslContextRepository implements CdslContextRepository {
 
         if (StringUtils.isNotBlank(endpoint)) {
             dynamoDBClient = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
-                    new AwsClientBuilder.EndpointConfiguration(endpoint, "us-west-2")).build();
+                    new AwsClientBuilder.EndpointConfiguration(endpoint, r.getName())).build();
         } else {
             dynamoDBClient = AmazonDynamoDBClientBuilder.standard().withRegion(r).build();
         }
