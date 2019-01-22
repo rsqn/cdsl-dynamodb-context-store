@@ -9,7 +9,7 @@
 
     <groupId>tech.rsqn.cdsl</groupId>
     <artifactId>cdsl-dynamodb-context-store</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.8</version>
     <packaging>jar</packaging>
 
     <name>cdsl-dynamodb-context-store</name>
@@ -20,7 +20,7 @@
         <connection>scm:git:git@github.com:rsqn/cdsl-dynamodb-context-store.git</connection>
         <developerConnection>scm:git:git@github.com:rsqn/cdsl-dynamodb-context-store.git</developerConnection>
         <url>https://github.com/rsqn/cdsl-dynamodb-context-store</url>
-        <tag>HEAD</tag>
+        <tag>cdsl-dynamodb-context-store-1.0.8</tag>
     </scm>
 
     <licenses>
