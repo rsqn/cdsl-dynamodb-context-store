@@ -10,6 +10,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import org.apache.commons.lang3.StringUtils;
 import tech.rsqn.cdsl.context.CdslContext;
 import tech.rsqn.cdsl.context.CdslContextRepository;
+import tech.rsqn.cdsl.model.dynamodb.CdslContextDocument;
 import tech.rsqn.cdsl.model.dynamodb.DynamoCdslContext;
 
 import java.util.Date;
@@ -58,7 +59,7 @@ public class DynamoCdslContextRepository implements CdslContextRepository {
         // DynamoDBMapperConfig(DynamoDBMapperConfig.ConsistentReads.CONSISTENT);
         mapper = new DynamoDBMapper(dynamoDBClient, builder.build());
     }
-    
+
     @Override
     public CdslContext getContext(String contextId) {
        return getContext(null,contextId);
@@ -66,10 +67,10 @@ public class DynamoCdslContextRepository implements CdslContextRepository {
 
     @Override
     public CdslContext getContext(String transactionId, String contextId) {
-        DynamoCdslContext item = mapper.load(DynamoCdslContext.class, contextId, mapperConfig); 
-                
+        DynamoCdslContext item = mapper.load(DynamoCdslContext.class, contextId, mapperConfig);
+
         if ( item != null ) {
-            return item.getContext();
+            return item.getContext().convert();
         }
         return null;
     }
@@ -87,27 +88,29 @@ public class DynamoCdslContextRepository implements CdslContextRepository {
             contexts.put(context.getId(), context);
         }
         */
-        DynamoCdslContext item = mapper.load(DynamoCdslContext.class, context.getId(), mapperConfig); 
-        
+        DynamoCdslContext item = mapper.load(DynamoCdslContext.class, context.getId(), mapperConfig);
+
         if ( item != null ) {
-            // update the intern    
+            // update the intern
             // check stuff
         } else {
             item = new DynamoCdslContext();
         }
-        
+
+        if ( StringUtils.isEmpty(context.getId())) {
+            throw new RuntimeException("context.id is not present");
+        }
         item.setId(context.getId());
         item.setContextId(context.getId());
-        item.setContext(context);
-        item.setModifiedTs(new Date());
-        
+        item.setContext(new CdslContextDocument().with(context));
+
         mapper.save(item,mapperConfig);
     }
-    
+
     public int deleteContext(String contextId) {
-        
-        DynamoCdslContext item = mapper.load(DynamoCdslContext.class, contextId, mapperConfig); 
-        
+
+        DynamoCdslContext item = mapper.load(DynamoCdslContext.class, contextId, mapperConfig);
+
         if ( item != null  ) {
             mapper.delete(item);
             return 1;
